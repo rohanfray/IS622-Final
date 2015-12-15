@@ -1,0 +1,7 @@
+---
+title: "IS622-Final"
+author: "Rohan Fray"
+output: pdf_document
+---
+
+#Initial look at the data
