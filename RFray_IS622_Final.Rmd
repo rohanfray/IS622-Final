@@ -4,4 +4,10 @@ author: "Rohan Fray"
 output: pdf_document
 ---
 
+```{r}
+library(jsonlite)
+```
+
+
+
 #Initial look at the data
