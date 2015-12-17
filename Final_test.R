@@ -18,5 +18,10 @@ for (i in 1:length(linn)){
   
 }
 
-df <- data.frame(y,y2,x, stringsAsFactors=FALSE)
+df <- data.frame(y,y2,x, stringsAsFactors=T)
 colnames(df) <- c("userID","businessID","rating")
+
+
+mat <-acast(df, userID~businessID, value.var="rating")
+
+mat<-with(df, sparseMatrix(i = as.numeric(userID), j=as.numeric(businessID), x=rating,dimnames=list(levels(userID), levels(businessID))))
