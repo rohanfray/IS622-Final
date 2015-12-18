@@ -21,7 +21,8 @@ ratings <- as.numeric(ans$val[,2])
 businesses <- ans$val[,1]
 users <- ans$key
 df.scale <- data.frame(users,businesses,ratings, stringsAsFactors=F)
-
+#removing a blank row
+df.scale <- df.scale[-c(1),]
 
 
 #scale by Business
@@ -37,3 +38,8 @@ PreProcessBusiness = mapreduce(input = inp,
 )
 
 ans <- from.dfs(PreProcessBusiness)
+#recreate df by ans
+ratings <- as.numeric(ans$val[,2])
+users <- ans$val[,1]
+businesses <- ans$key
+df.scale2 <- data.frame(users,businesses,ratings, stringsAsFactors=F)
