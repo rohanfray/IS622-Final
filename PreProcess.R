@@ -21,8 +21,7 @@ ratings <- as.numeric(ans$val[,2])
 businesses <- ans$val[,1]
 users <- ans$key
 df.scale <- data.frame(users,businesses,ratings, stringsAsFactors=F)
-#removing a blank row
-df.scale <- df.scale[-c(1),]
+
 
 
 #scale by Business
