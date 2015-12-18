@@ -18,4 +18,3 @@ val = 2*(sqrt(a/d))^2
 SE <- lapply(df.scale2$ratings, function(x){(x-val)^2})
 MSE <- Reduce("+", SE)/length(SE)
 RMSE <- sqrt(MSE)
-xfg
