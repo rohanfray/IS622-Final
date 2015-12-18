@@ -1,3 +1,5 @@
+library(jsonlite)
+
 conn <- file("/home/tengig/tmpNFvucr",open="r")
 linn <-readLines(conn)
 s<-linn[233313]
@@ -18,7 +20,8 @@ for (i in 1:length(linn)){
   
 }
 
-df <- data.frame(y,y2,x, stringsAsFactors=T)
+df <- data.frame(y,y2,x, stringsAsFactors=F)
+#df <- data.frame(y,y2,x, stringsAsFactors=T)
 colnames(df) <- c("userID","businessID","rating")
 
 
