@@ -1,7 +1,9 @@
 #Changing values in U
 colnames(testdf)
+testdf <- df.scale2
+
 a = sd(testdf$ratings)
-a = mean(testdf$ratings)
+#a = mean(testdf$ratings)
 testU <- jitter(matrix(sqrt(a/d),nrow = length(unique(testdf$users)),ncol = d))
 rownames(testU)<-unique(testdf$users)
 
@@ -59,8 +61,6 @@ ChangeV <- mapreduce(input = inpV,
                        #values of M for the row in U
                        tmp.M <- testdf[testdf$businesses==k,]
                        
-                       
-                       
                        for (i in range(1,d)){
                          denom <- sum((testU[unlist(tmp.M$users),i])^2)
                          
@@ -75,7 +75,6 @@ ChangeV <- mapreduce(input = inpV,
                              }
                            }
                            num = temp1*(temp2-temp3)
-                           
                          }
                          
                          vals[i] = (num/denom)
