@@ -3,11 +3,11 @@ d = 2
 a = sd(df.scale2$ratings)
 
 uniq.users <- unique(df.scale2$users)
-
 U <- matrix(sqrt(a/d),nrow = length(uniq.users),ncol = d)
 
-uniq.busi <- unique(df.scale2$businesses)
 
+
+uniq.busi <- unique(df.scale2$businesses)
 V <- matrix(sqrt(a/d),ncol = length(uniq.busi),nrow = d)
 
 
