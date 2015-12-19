@@ -28,7 +28,7 @@ df[df==""]<-NA
 df = na.omit(df)
 
 
-mat <-acast(df, userID~businessID, value.var="rating")
+#mat <-acast(df, userID~businessID, value.var="rating")
 
-mat<-with(df, sparseMatrix(i = as.numeric(userID), j=as.numeric(businessID), x=rating,dimnames=list(levels(userID), levels(businessID))))
+#mat<-with(df, sparseMatrix(i = as.numeric(userID), j=as.numeric(businessID), x=rating,dimnames=list(levels(userID), levels(businessID))))
 

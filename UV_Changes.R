@@ -1,6 +1,6 @@
 #Changing values in U
-colnames(testdf)
-testdf <- df.scale2
+d=2
+testdf <- df.scale
 
 a = sd(testdf$ratings)
 #a = mean(testdf$ratings)

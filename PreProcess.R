@@ -1,5 +1,6 @@
+df.subset = df[sample(330070,100),]
 
-inp <- to.dfs(df)
+inp <- to.dfs(df.subset)
 
 #scale by User
 PreProcessUser = mapreduce(input = inp,
@@ -41,4 +42,4 @@ ans <- from.dfs(PreProcessBusiness)
 ratings <- as.numeric(ans$val[,2])
 users <- ans$val[,1]
 businesses <- ans$key
-df.scale2 <- data.frame(users,businesses,ratings, stringsAsFactors=F)
+df.scale <- data.frame(users,businesses,ratings, stringsAsFactors=F)
