@@ -14,13 +14,22 @@ ChangeU <- mapreduce(input = inp,
                           keyval(rownames(testU),v) 
                      },
                      reduce = function(k,v){
+                       #our values for the row in U and each of its column
+                       vals <- numeric(d)
+                       
+                       #values of M for the row in U
                        tmp.M <- testdf[testdf$users==k,]
                        
+                       
                        for (i in range(1,d)){
+                         denom <- sum((testV[i,unlist(tmp.M$businesses)])^2)
                          
+                         
+                         
+                         vals[i] = (num/denom)
                        }
                        
-                       keyval(k,v)
+                       keyval(k,vals)
                      })
 
 from.dfs(ChangeU)
