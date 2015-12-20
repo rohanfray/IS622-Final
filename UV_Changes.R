@@ -4,9 +4,11 @@ testdf <- df.scale
 
 a = sd(testdf$ratings)
 #a = mean(testdf$ratings)
+set.seed(622)
 testU <- jitter(matrix(sqrt(a/d),nrow = length(unique(testdf$users)),ncol = d))
 rownames(testU)<-unique(testdf$users)
 
+set.seed(622)
 testV <- jitter(matrix(sqrt(a/d),ncol = length(unique(testdf$businesses)),nrow = d))
 colnames(testV) <- unique(testdf$businesses)
 

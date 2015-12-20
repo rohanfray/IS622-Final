@@ -1,6 +1,7 @@
 
 RMSE.old <- RMSE
 
+now<- Sys.time()
 testdf2 <-df.scale
 Uvals<- matrix(unlist(lapply(testdf2$users, function(x){testU[x,]})),ncol=d,byrow = T)
 Vvals<- t(matrix(unlist(lapply(testdf2$businesses,function(x){testV[,x]})),nrow=d,byrow=F))
@@ -12,17 +13,16 @@ vals<-apply(cbind(Uvals,Vvals),1,function(x){
   }
   newcalc
 })
-
 SE <- (vals-testdf$ratings)^2
 MSE <- sum(SE)/nrow(df.scale)
 RMSE <- sqrt(MSE)
 RMSE
 RMSE.old - RMSE
+Sys.time()-now
+
+
 
 #RMSEinp <- to.dfs(testdf2)
-
-
-
 #now<- format(Sys.time(), "%a %b %d %X %Y")
 #The below MR is too slow
 # SEcalc <- mapreduce(input = RMSEinp, 
