@@ -20,7 +20,7 @@ RMSE
 
 
 
-now<- format(Sys.time(), "%a %b %d %X %Y")
+#now<- format(Sys.time(), "%a %b %d %X %Y")
 #The below MR is too slow
 # SEcalc <- mapreduce(input = RMSEinp, 
 #                       map = function(.,v){
@@ -39,4 +39,4 @@ now<- format(Sys.time(), "%a %b %d %X %Y")
 
 #SE <- from.dfs(SEcalc)
 #MSE <- sum(unlist(SE$val))/nrow(df.scale)
-then <- format(Sys.time(), "%a %b %d %X %Y")
+#then <- format(Sys.time(), "%a %b %d %X %Y")
