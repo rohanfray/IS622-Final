@@ -7,6 +7,9 @@ output: pdf_document
 #Load packages and set constants
 ```{r,message = FALSE}
 library(jsonlite)
+library(Matrix)
+library(irlba)
+
 library(rmr2)
 library(rhdfs)
 hdfs.init()
@@ -15,6 +18,9 @@ hdfs.init()
 d=2
 ```
 
+```{r,echo=FALSE}
+rmr.options(backend = "local")
+```
 
 #Read Yelp data file and pull out only reviews
 ```{r}
