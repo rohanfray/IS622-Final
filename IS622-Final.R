@@ -107,11 +107,11 @@ vals<-apply(cbind(Uvals,Vvals),1,function(x){
 })
 SE <- (vals-testdf$ratings)^2
 MSE <- sum(SE)/nrow(df.scale)
-RMSE <- sqrt(MSE)
-RMSE
+RMSE.old <- sqrt(MSE)
+RMSE.old
 
 
-for (q in (1:4)){
+for (q in (1:1)){
   now<- Sys.time()
   inpU <- to.dfs(testU)
   ChangeU <- mapreduce(input = inpU, 

@@ -1,6 +1,6 @@
 set.seed(622)
-df.subset = df[sample(330070,10000),]
-
+df.subset = df[sample(330070,100000),]
+#df.subset = df
 inp <- to.dfs(df.subset)
 #scale by User
 PreProcessUser = mapreduce(input = inp,
