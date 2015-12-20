@@ -1,4 +1,5 @@
-df.subset = df[sample(330070,100),]
+set.seed(622)
+df.subset = df[sample(330070,10000),]
 
 inp <- to.dfs(df.subset)
 
@@ -43,3 +44,16 @@ ratings <- as.numeric(ans$val[,2])
 users <- ans$val[,1]
 businesses <- ans$key
 df.scale <- data.frame(users,businesses,ratings, stringsAsFactors=F)
+
+remove(df.subset)
+remove(businesses)
+remove(conn)
+remove(ans)
+remove(i)
+remove(j)
+remove(ratings)
+remove(tmp)
+remove(users)
+remove(x)
+remove(y)
+remove(y2)

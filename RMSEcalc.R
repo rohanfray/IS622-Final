@@ -1,16 +1,42 @@
-RMSEinp <- to.dfs(df.scale)
+
+testdf2 <-df.scale
+Uvals<- matrix(unlist(lapply(testdf2$users, function(x){testU[x,]})),ncol=d,byrow = T)
+Vvals<- t(matrix(unlist(lapply(testdf2$businesses,function(x){testV[,x]})),nrow=d,byrow=F))
+
+vals<-apply(cbind(Uvals,Vvals),1,function(x){
+  newcalc<-0
+  for(i in range(1:d)){
+    newcalc = newcalc + x[i]*x[d+i]
+  }
+  newcalc
+})
+
+SE <- (vals-testdf$ratings)^2
+MSE <- sum(SE)/nrow(df.scale)
+RMSE <- sqrt(MSE)
+RMSE
+
+#RMSEinp <- to.dfs(testdf2)
 
 
-RMSEcalc <- mapreduce(input = RMSEinp, 
-                      map = function(.,v){
-                        Uvals<- matrix(unlist(lapply(v$users, function(x){testU[x,]})),ncol=d,byrow = T)
-                        Vvals<- t(matrix(unlist(lapply(v$businesses,function(x){testV[,x]})),nrow=d,byrow=F))
-                          
-                        keyval(v,)
-                      })
+
+now<- format(Sys.time(), "%a %b %d %X %Y")
+#The below MR is too slow
+# SEcalc <- mapreduce(input = RMSEinp, 
+#                       map = function(.,v){
+#                           keyval(v[,(1:3)],v[,(4:(3+(2*d)))])
+#                       },
+#                       reduce= function(k,v){
+#                         newcalc <-0
+#                         for (i in range(1:d)){
+#                           newcalc = newcalc + v[i]*v[d+i]
+#                         }
+#                         
+#                         keyval(1,(k[3]-newcalc)^2)
+#                       })
 
 
-q <- lapply(tmp$businesses, function(x){testV[,x]})
-q<-unlist(q)
-q<-matrix(q,nrow=d,byrow = F)
-q<-t(q)
+
+#SE <- from.dfs(SEcalc)
+#MSE <- sum(unlist(SE$val))/nrow(df.scale)
+then <- format(Sys.time(), "%a %b %d %X %Y")
