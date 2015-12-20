@@ -43,17 +43,18 @@ ChangeU <- mapreduce(input = inpU,
                        }
                        
                        keyval(k,list(vals))
-                     },verbose = T)
+                     })
 
 Uout<-from.dfs(ChangeU)
 testU<-matrix(unlist(Uout$val),ncol = d,byrow = TRUE)
 rownames(testU)<-Uout$key
 then <- format(Sys.time(), "%a %b %d %X %Y")
 
+
 inpV <- to.dfs(testV)
 ChangeV <- mapreduce(input = inpV, 
                      map = function(.,v){
-                       keyval(colnames(v),v) 
+                       keyval(colnames(v),t(v)) 
                      },
                      reduce = function(k,v){
                        #our values for the column in V and each of its row
@@ -82,7 +83,7 @@ ChangeV <- mapreduce(input = inpV,
                        }
                        
                        keyval(k,list(vals))
-                     },verbose = T)
+                     })
 
 Vout<-from.dfs(ChangeV)
 testV <- matrix(unlist(Vout$val),nrow = d)
