@@ -24,6 +24,9 @@ rmr.options(backend = "local")
 
 #Read Yelp data file and pull out only reviews
 ```{r}
+conn <- file("/home/tengig/tmpNFvucr",open="r")
+linn <-readLines(conn)
+
 j=0
 x <- numeric(330071)
 y <- character(330071)
@@ -49,7 +52,7 @@ hist(df$rating)
 #Get our sample and preprocess the data via RHadoop
 ```{r}
 set.seed(622)
-df.subset = df[sample(330070,10000),]
+df.subset = df[sample(330070,100000),]
 
 inp <- to.dfs(df.subset)
 #scale by User
@@ -98,6 +101,7 @@ hist(df.scale$ratings)
 remove(df.subset)
 remove(businesses)
 remove(conn)
+remove(linn)
 remove(ans)
 remove(i)
 remove(j)
@@ -124,9 +128,12 @@ RMSE.ad
 #Create U and V
 We will use jitter to create U and V
 ```{r}
+testdf <- df.scale
+set.seed(622)
 testU <- jitter(matrix(sqrt(a/d),nrow = length(unique(testdf$users)),ncol = d))
 rownames(testU)<-unique(testdf$users)
 
+set.seed(622)
 testV <- jitter(matrix(sqrt(a/d),ncol = length(unique(testdf$businesses)),nrow = d))
 colnames(testV) <- unique(testdf$businesses)
 
