@@ -2,7 +2,6 @@ set.seed(622)
 df.subset = df[sample(330070,10000),]
 
 inp <- to.dfs(df.subset)
-
 #scale by User
 PreProcessUser = mapreduce(input = inp,
                            map = function(.,v){
@@ -16,8 +15,6 @@ PreProcessUser = mapreduce(input = inp,
 
 
 ans <- from.dfs(PreProcessUser)
-
-
 #recreate df by ans
 ratings <- as.numeric(ans$val[,2])
 businesses <- ans$val[,1]

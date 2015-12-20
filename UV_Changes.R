@@ -10,7 +10,10 @@ rownames(testU)<-unique(testdf$users)
 testV <- jitter(matrix(sqrt(a/d),ncol = length(unique(testdf$businesses)),nrow = d))
 colnames(testV) <- unique(testdf$businesses)
 
-now<- format(Sys.time(), "%a %b %d %X %Y")
+
+
+now<- Sys.time()
+
 inpU <- to.dfs(testU)
 ChangeU <- mapreduce(input = inpU, 
                      map = function(.,v){
@@ -48,7 +51,7 @@ ChangeU <- mapreduce(input = inpU,
 Uout<-from.dfs(ChangeU)
 testU<-matrix(unlist(Uout$val),ncol = d,byrow = TRUE)
 rownames(testU)<-Uout$key
-then <- format(Sys.time(), "%a %b %d %X %Y")
+
 
 
 inpV <- to.dfs(testV)
@@ -88,3 +91,5 @@ ChangeV <- mapreduce(input = inpV,
 Vout<-from.dfs(ChangeV)
 testV <- matrix(unlist(Vout$val),nrow = d)
 colnames(testV)<-Vout$key
+
+Sys.time()-now
