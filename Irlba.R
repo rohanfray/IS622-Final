@@ -18,17 +18,17 @@ mat<-with(df.scale,
 L <- irlba(mat,nv = 2,nu = 2)
 
 L.d <- diag(L$d)
-rev<-L$u%*%L.d
-rownames(rev)<-levels(us)
+irlbaTestU<-L$u%*%L.d
+rownames(irlbaTestU)<-levels(us)
 
-rev.v <- t(L$v)
-colnames(rev.v)<-levels(bs)
+irlbaTestV <- t(L$v)
+colnames(irlbaTestV)<-levels(bs)
 
 rm(list = c("us","us.int","bs","bs.int"))
 
 
-Uvals<- matrix(unlist(lapply(testdf2$users, function(x){rev[x,]})),ncol=d,byrow = T)
-Vvals<- t(matrix(unlist(lapply(testdf2$businesses,function(x){rev.v[,x]})),nrow=d,byrow=F))
+Uvals<- matrix(unlist(lapply(testdf2$users, function(x){irlbaTestU[x,]})),ncol=d,byrow = T)
+Vvals<- t(matrix(unlist(lapply(testdf2$businesses,function(x){irlbaTestV[,x]})),nrow=d,byrow=F))
 
 vals<-apply(cbind(Uvals,Vvals),1,function(x){
   newcalc<-0

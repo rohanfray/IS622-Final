@@ -130,11 +130,15 @@ We will use jitter to create U and V
 ```{r}
 testdf <- df.scale
 set.seed(622)
-testU <- jitter(matrix(sqrt(a/d),nrow = length(unique(testdf$users)),ncol = d))
+testU <- jitter(matrix(sqrt(a/d),
+                       nrow = length(unique(testdf$users)),
+                       ncol = d))
 rownames(testU)<-unique(testdf$users)
 
 set.seed(622)
-testV <- jitter(matrix(sqrt(a/d),ncol = length(unique(testdf$businesses)),nrow = d))
+testV <- jitter(matrix(sqrt(a/d),
+                       ncol = length(unique(testdf$businesses)),
+                       nrow = d))
 colnames(testV) <- unique(testdf$businesses)
 
 testdf2 <-df.scale
@@ -142,8 +146,10 @@ testdf2 <-df.scale
 
 #Calculate RMSE of this U and V
 ```{r}
-Uvals<- matrix(unlist(lapply(testdf2$users, function(x){testU[x,]})),ncol=d,byrow = T)
-Vvals<- t(matrix(unlist(lapply(testdf2$businesses,function(x){testV[,x]})),nrow=d,byrow=F))
+Uvals<- matrix(unlist(lapply(testdf2$users, 
+                             function(x){testU[x,]})),ncol=d,byrow = T)
+Vvals<- t(matrix(unlist(lapply(testdf2$businesses,
+                               function(x){testV[,x]})),nrow=d,byrow=F))
 vals<-apply(cbind(Uvals,Vvals),1,function(x){
   newcalc<-0
   for(i in range(1:d)){
@@ -242,8 +248,10 @@ for (iter in (1:2)){
 
 #Final RMSE after iterations
 ```{r}
-Uvals<- matrix(unlist(lapply(testdf2$users, function(x){testU[x,]})),ncol=d,byrow = T)
-Vvals<- t(matrix(unlist(lapply(testdf2$businesses,function(x){testV[,x]})),nrow=d,byrow=F))
+Uvals<- matrix(unlist(lapply(testdf2$users, 
+                             function(x){testU[x,]})),ncol=d,byrow = T)
+Vvals<- t(matrix(unlist(lapply(testdf2$businesses,
+                               function(x){testV[,x]})),nrow=d,byrow=F))
 
 vals<-apply(cbind(Uvals,Vvals),1,function(x){
   newcalc<-0
@@ -261,4 +269,70 @@ RMSE
 #Difference between original and new RMSE
 ```{r}
 RMSE.old - RMSE
+```
+
+#Using irlba
+```{r}
+us<-as.factor(df.scale$users)
+us.int <-as.integer(us)
+
+bs<-as.factor(df.scale$businesses)
+bs.int <-as.integer(bs)
+
+mat<-with(df.scale, 
+          sparseMatrix(i=us.int, 
+                       j=bs.int, 
+                       x=ratings,
+                       dimnames=list(levels(us), levels(bs))))
+
+
+L <- irlba(mat,nv = 2,nu = 2)
+
+L.d <- diag(L$d)
+irlbaTestU<-L$u%*%L.d
+rownames(irlbaTestU)<-levels(us)
+
+irlbaTestV <- t(L$v)
+colnames(irlbaTestV)<-levels(bs)
+```
+
+```{r,echo = FALSE}
+rm(list = c("us","us.int","bs","bs.int"))
+```
+
+#The RMSE for the irlba decomposition
+```{r}
+Uvals<- matrix(unlist(lapply(testdf2$users, 
+                             function(x){irlbaTestU[x,]})),ncol=d,byrow = T)
+Vvals<- t(matrix(unlist(lapply(testdf2$businesses,
+                               function(x){irlbaTestV[,x]})),nrow=d,byrow=F))
+
+vals<-apply(cbind(Uvals,Vvals),1,function(x){
+  newcalc<-0
+  for(i in range(1:d)){
+    newcalc = newcalc + x[i]*x[d+i]
+  }
+  newcalc
+})
+SE <- (vals-testdf$ratings)^2
+MSE <- sum(SE)/nrow(df.scale)
+RMSE.irlba <- sqrt(MSE)
+RMSE.irlba
+```
+
+#The three RMSEs
+
+##The original RMSE with our initial U and V
+```{r}
+RMSE.old
+```
+
+##The RMSE after our mapreduce calls
+```{r}
+RMSE
+```
+
+##The RMSE of the irlba decomp
+```{r}
+RMSE.irlba
 ```
